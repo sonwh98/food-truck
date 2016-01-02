@@ -1,0 +1,4 @@
+{:require [food-truck.client.menu]
+ :init-fns [food-truck.client.menu/send-get-catalog]
+ :compiler-options {:asset-path "js/menu.out"}}
+

@@ -1,5 +1,5 @@
 (ns food-truck.client.dom
-  (:require [four.messaging :as m]
+  (:require [food-truck.messaging :as m]
             [cljs.core.async :refer [put! chan]]))
 
 (def window js/window)

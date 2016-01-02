@@ -1,10 +1,10 @@
 (ns food-truck.server.main
+  (:gen-class)
   (:require [org.httpkit.server :as http-kit]
             [compojure.route :as route]
             [compojure.handler :refer [site]]
             [compojure.core :refer [defroutes]]
             [food-truck.server.ws :as ws]
-            [food-truck.server.chemical]
             [food-truck.server.restaurant]
             [com.stuartsierra.component :as component]
             [environ.core :refer [env]]
@@ -19,7 +19,7 @@
 
 (defn dev-system []
   (component/system-map
-    :datomic-db (new-datomic-db (or (env :db-url) "datomic:mem://four"))
+    :datomic-db (new-datomic-db (or (env :db-url) "datomic:mem://food-truck"))
     ;:web (new-web-server (or (env :http-port) 8080) handler)
     :repl-server (new-repl-server 2222)))
 

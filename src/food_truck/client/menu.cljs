@@ -1,7 +1,7 @@
 (ns food-truck.client.menu
   (:require [food-truck.client.dom :as dom]
             [food-truck.client.ws :as ws :refer [process-msg]]
-            [four.messaging :as m]
+            [food-truck.messaging :as m]
             [crate.core :as c]
             [reagent.core :as r]))
 

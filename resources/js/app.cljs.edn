@@ -1,3 +1,0 @@
-{:require  [food-truck.app]
- :init-fns [food-truck.app/init]
- :compiler-options {:asset-path "js/app.out"}}
