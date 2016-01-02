@@ -83,7 +83,7 @@
    (run))
 )
 
-(deftask foo []
+(deftask build-jar []
   (println "foo") 
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
                            food-truck.messaging food-truck.transit})
