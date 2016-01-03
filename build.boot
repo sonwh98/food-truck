@@ -42,7 +42,7 @@
  '[food-truck.server.main :as m]
  '[boot.core            :as core])
 
-(deftask build []
+(deftask build-cljs []
   (comp (speak)
         (cljs)))
 
@@ -51,23 +51,10 @@
         (watch)
         (cljs-repl)
         (reload)
-        (build)))
-
-(deftask production []
-  
-  
-  ;; (task-options! cljs {:optimizations :advanced}
-  ;;                pom {:project 'food-truck
-  ;;                     :version "0.1"}
-  ;;                jar {:main 'food-truck.server.main})
-  ;;identity
-  )
+        (build-cljs)))
 
 (deftask development []
-  (task-options! cljs {:compiler-options {:output-to "resources/public/js/main2.js"}
-                       :optimizations :none
-                       :source-map true}
-                 reload {:on-jsload 'food-truck.client.menu/on-js-reload})
+  (set-env! :db-url "datomic:free://localhost:4334/four")
   identity)
 
 (deftask dev
@@ -76,15 +63,20 @@
   (comp (development)
         (run)))
 
+(deftask build-all []
+  (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
+                           food-truck.messaging food-truck.transit})
+        (cljs)))
+
 (deftask start []
-  (food-truck.server.main/-main)
-  (comp
-   (development)
-   (run))
-)
+  (comp (build-all)
+        (with-pre-wrap fileset
+          (set-env! :db-url "datomic:free://localhost:4334/four")
+          
+          (food-truck.server.main/-main)
+          fileset)))
 
 (deftask build-jar []
-  (println "foo") 
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
                            food-truck.messaging food-truck.transit})
         (cljs)
