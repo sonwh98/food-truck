@@ -1,5 +1,5 @@
 (set-env!
- :offline? true
+                                        ; :offline? true
  :source-paths    #{"src"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs          "1.7.170-3"   :scope "test"]
@@ -18,7 +18,8 @@
                  [com.stuartsierra/component "0.2.3"]
                  [org.danielsz/system "0.1.9"]
                  [environ "1.0.0"]
-
+                 [boot-environ "1.0.1"]
+                 
                  [org.codehaus.groovy/groovy-all "2.4.5"]
                  [com.datomic/datomic-free "0.9.5327" :exclusions [joda-time]]
                  [datomic-schema "1.3.0"]
@@ -40,7 +41,9 @@
  '[adzerk.boot-reload    :refer [reload]]
  '[pandeiro.boot-http    :refer [serve]]
  '[food-truck.server.main :as m]
- '[boot.core            :as core])
+ '[boot.core            :as core]
+ '[environ.core :refer [env]]
+ '[environ.boot :refer [environ]])
 
 (deftask build-cljs []
   (comp (speak)
@@ -48,10 +51,10 @@
 
 (deftask run []
   (comp 
-        (watch)
-        (cljs-repl)
-        (reload)
-        (build-cljs)))
+   (watch)
+   (cljs-repl)
+   (reload)
+   (build-cljs)))
 
 (deftask development []
   (set-env! :db-url "datomic:free://localhost:4334/four")
@@ -68,13 +71,15 @@
                            food-truck.messaging food-truck.transit})
         (cljs)))
 
+;;boot environ -e db-url="datomic:free://localhost:4334/four" start wait
 (deftask start []
   (comp (build-all)
         (with-pre-wrap fileset
-          (set-env! :db-url "datomic:free://localhost:4334/four")
-          
+          (println "db-url=" (env :db-url))
           (food-truck.server.main/-main)
-          fileset)))
+          fileset)
+
+        ))
 
 (deftask build-jar []
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
@@ -85,3 +90,5 @@
         (uber)
         (jar :main 'food-truck.server.main))
   )
+
+
