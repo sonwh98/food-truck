@@ -1,5 +1,5 @@
 (set-env!
-                                        ; :offline? true
+ ;; :offline? true
  :source-paths    #{"src"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs          "1.7.170-3"   :scope "test"]
@@ -9,7 +9,7 @@
                  [org.clojure/tools.nrepl "0.2.12" :scope "test"]
                  [adzerk/boot-reload        "0.4.2"      :scope "test"]
                  [pandeiro/boot-http        "0.7.1-SNAPSHOT"      :scope "test"]
-                 [org.clojure/clojurescript "1.7.170"]
+                 [org.clojure/clojurescript "1.7.189"]
                  [reagent "0.5.1"]
                  [krate "0.2.5-SNAPSHOT"]
                  
@@ -31,9 +31,7 @@
                  [jarohen/chord "0.6.0"]
 
                  [com.cognitect/transit-clj "0.8.285"]
-                 [com.cognitect/transit-cljs "0.8.225"]
-
-                 ])
+                 [com.cognitect/transit-cljs "0.8.225"]])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]
@@ -57,7 +55,8 @@
    (build-cljs)))
 
 (deftask development []
-  (set-env! :db-url "datomic:free://localhost:4334/four")
+  (task-options! reload {:asset-path "public"
+                         :on-jsload 'food-truck.client.menu/on-js-reload})
   identity)
 
 (deftask dev
@@ -71,15 +70,21 @@
                            food-truck.messaging food-truck.transit})
         (cljs)))
 
-;;boot environ -e db-url="datomic:free://localhost:4334/four" start wait
+;;boot environ -e db-url="datomic:free://localhost:4334/four" start
 (deftask start []
-  (comp (build-all)
+  (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
+                           food-truck.messaging food-truck.transit})
+
         (with-pre-wrap fileset
           (println "db-url=" (env :db-url))
           (food-truck.server.main/-main)
           fileset)
-
-        ))
+        (development)
+        (watch)
+        (cljs-repl)
+        (reload)
+        (speak)
+        (cljs)))
 
 (deftask build-jar []
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
