@@ -5,6 +5,8 @@
             [crate.core :as c]
             [reagent.core :as r]))
 
+(enable-console-print!)
+
 (defonce catalog (r/atom nil))
 
 (defn category-buttons []
@@ -14,7 +16,7 @@
    (for [category @catalog
          :let [cat-name (:category/name category)]]
      [:button {:id cat-name
-               :key cat-name} cat-name])])
+               :key cat-name} (str "bar2 " cat-name)])])
 
 (defn categories []
   (for [category @catalog
@@ -52,10 +54,13 @@
 (defn send-get-catalog []
   (dom/whenever-dom-ready #(ws/send! [:get-catalog true])))
 
-(defn on-js-reload [])
+(defn on-js-reload []
+  (println "reload")
+  (send-get-catalog))
 
 
-(send-get-catalog)
+;(send-get-catalog)
+
 
 
 
