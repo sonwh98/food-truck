@@ -9,9 +9,12 @@
                  [org.clojure/tools.nrepl "0.2.12" :scope "test"]
                  [adzerk/boot-reload        "0.4.2"      :scope "test"]
                  [pandeiro/boot-http        "0.7.1-SNAPSHOT"      :scope "test"]
+                 [org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.189"]
                  [reagent "0.5.1"]
-                 [krate "0.2.5-SNAPSHOT"]
+                 [cljsjs/tween "16.3.1"]
+                 [org.clojure/core.logic "0.8.10"]
+
                  
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [com.taoensso/timbre "4.1.4"]
@@ -71,6 +74,7 @@
         (cljs)))
 
 ;;boot environ -e db-url="datomic:free://localhost:4334/four" start
+;;boot repl -c 
 (deftask start []
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
                            food-truck.messaging food-truck.transit})
@@ -81,10 +85,10 @@
           fileset)
         (development)
         (watch)
-        (cljs-repl)
-        (reload)
         (speak)
-        (cljs)))
+        (reload)
+        (cljs-repl)
+        (cljs :source-map true :optimizations :none)))
 
 (deftask build-jar []
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
