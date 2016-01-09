@@ -85,10 +85,10 @@
           fileset)
         (development)
         (watch)
-        (speak)
-        (reload)
         (cljs-repl)
-        (cljs :source-map true :optimizations :none)))
+        (reload)
+        (speak)
+        (cljs)))
 
 (deftask build-jar []
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
