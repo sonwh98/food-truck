@@ -1,4 +1,4 @@
-(ns food-truck.math)
+(ns food-truck.matrix)
 
 (def zero-vector [0 0 1])
 (def origin [zero-vector

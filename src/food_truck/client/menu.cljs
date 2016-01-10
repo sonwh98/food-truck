@@ -2,7 +2,7 @@
   (:require [food-truck.client.dom :as dom]
             [food-truck.client.ws :as ws :refer [process-msg]]
             [food-truck.messaging :as m]
-            [food-truck.math :as math]
+            [food-truck.matrix :as math]
             [reagent.core :as r]
             [cljsjs.tween]))
 
