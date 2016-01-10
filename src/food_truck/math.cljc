@@ -1,5 +1,10 @@
 (ns food-truck.math)
 
+(def zero-vector [0 0 1])
+(def origin [zero-vector
+             zero-vector
+             zero-vector])
+
 (defn row
   "i th row of a matrix m"
   [m i]
@@ -22,3 +27,12 @@
     (for [j (-> b first count range)
           :let [b-column (column b j)]]
       (dot-product a-row b-column))))
+
+(defn translate-x [m x]
+  (matrix-multiply [[1 0 x]
+                    [0 1 0]
+                    [0 0 1]]
+                   m))
+
+(defn to-css-matrix [m]
+  (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))

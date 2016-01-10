@@ -2,8 +2,9 @@
   (:require [food-truck.client.dom :as dom]
             [food-truck.client.ws :as ws :refer [process-msg]]
             [food-truck.messaging :as m]
-            [crate.core :as c]
-            [reagent.core :as r]))
+            [food-truck.math :as math]
+            [reagent.core :as r]
+            [cljsjs.tween]))
 
 (enable-console-print!)
 
@@ -11,12 +12,11 @@
 
 (defn category-buttons []
   [:div {:id "category-buttons-container"
-         :style {
-                 :transform "translateX(-200)"}}
+         :style {:transform (math/to-css-matrix (math/translate-x math/origin 300)) }}
    (for [category @catalog
          :let [cat-name (:category/name category)]]
      [:button {:id cat-name
-               :key cat-name} (str "bar2 " cat-name)])])
+               :key cat-name} (str "bar4 " cat-name)])])
 
 (defn categories []
   (for [category @catalog
@@ -62,5 +62,36 @@
 ;(send-get-catalog)
 
 
+(defn tween [property _ new-val]
+  (let [duration 500]
+    (.. (js/TWEEN.Tween. property)
+        (to (clj->js new-val)
+            (+ (* (rand) duration)
+               duration))
+        (onUpdate (fn []
+                    (this-as this
+                             (println "this=" this))))
+        (easing (.. js/TWEEN -Easing -Exponential -InOut))
+        (start))))
+
+(defn animate [animation-fn]
+  ((fn animation-loop [time]
+     (animation-fn time)
+     (js/requestAnimationFrame animation-loop))))
 
 
+(def foo (dom/by-id "category-buttons-container"))
+(def style (. foo -style))
+
+(def coords #js{:x 0 :y 0})
+(def t (.. (js/TWEEN.Tween. coords)
+               (to #js{:x 100 :y 100} 1000)
+               (onUpdate (fn []
+                           (this-as this
+                                    (println "this=" this))
+                           ))))
+
+(.. t start)
+
+(animate (fn [time]
+           (.. js/TWEEN update)))
