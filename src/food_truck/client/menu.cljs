@@ -10,8 +10,9 @@
 
 (defonce catalog (r/atom nil))
 (def x (r/atom 10))
+(def y (r/atom 10))
 
-(defonce style (ratom/reaction {:transform (layout/to-css-matrix (layout/translate-x @x)) }))
+(defonce style (ratom/reaction {:transform (layout/to-css-matrix (layout/translate @x @y )) }))
 
 (defn category-buttons []
   [:div {:id "category-buttons-container"
@@ -19,7 +20,7 @@
    (for [category @catalog
          :let [cat-name (:category/name category)]]
      [:button {:id cat-name
-               :key cat-name} (str "bar4 " cat-name)])])
+               :key cat-name} (str "bar1 " cat-name)])])
 
 (defn categories []
   (for [category @catalog
@@ -32,6 +33,7 @@
            :style {:backgroundColor (str "rgb(0,127,127)")
                    :border-style "solid"
                    :border-color "white"
+                   :transform (layout/to-css-matrix (layout/translate @x (+ @y 10)))
                    }}
      (for [p products]
        [:button {:id (:product/sku p)
