@@ -1,7 +1,7 @@
 (ns food-truck.matrix
   (:require [food-truck.util :as util]))
 
-(def zero-vector [0 0 1])
+(def zero-vector [0 0 0])
 (def origin [zero-vector
              zero-vector
              zero-vector])
@@ -34,12 +34,3 @@
     (for [[j a-val] (util/with-index a-row)
           :let [b-val (nth b-row j)]]
       (+  a-val b-val))))
-
-(defn translate-x [m x]
-  (add [[1 0 x]
-        [0 1 0]
-        [0 0 1]]
-       m))
-
-(defn to-css-matrix [m]
-  (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))

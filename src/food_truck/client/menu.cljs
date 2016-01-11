@@ -2,16 +2,16 @@
   (:require-macros [reagent.ratom :as ratom])
   (:require [food-truck.client.dom :as dom]
             [food-truck.client.ws :as ws :refer [process-msg]]
-            [food-truck.matrix :as math]
+            [food-truck.client.layout :as layout]
             [reagent.core :as r]
             [cljsjs.tween]))
 
 (enable-console-print!)
 
 (defonce catalog (r/atom nil))
-(def x (r/atom 200))
+(def x (r/atom 10))
 
-(defonce style (ratom/reaction {:transform (math/to-css-matrix (math/translate-x math/origin @x)) }))
+(defonce style (ratom/reaction {:transform (layout/to-css-matrix (layout/translate-x @x)) }))
 
 (defn category-buttons []
   [:div {:id "category-buttons-container"
