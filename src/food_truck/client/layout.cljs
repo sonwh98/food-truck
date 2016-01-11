@@ -24,8 +24,11 @@
 (defn to-css-matrix [m]
   (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))
 
-(defmethod position str-type [element-id x y]
+(defmethod position div-type [div x y]
   (let [transform (-> (translate x y)
-                      to-css-matrix)
-        element (dom/by-id element-id)]
-    (set! (.. element -style -transform) transform)))
+                      to-css-matrix)]
+    (set! (.. div -style -transform) transform)))
+
+(defmethod position str-type [id x y]
+  (position (dom/by-id id) x y))
+
