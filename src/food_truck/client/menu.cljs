@@ -12,7 +12,7 @@
 (def x (r/atom 10))
 (def y (r/atom 10))
 
-(defonce style (ratom/reaction {:transform (layout/to-css-matrix (layout/translate @x @y )) }))
+(defonce style (ratom/reaction {:transform (layout/to-css-matrix (layout/translate @x @y))}))
 
 (defn category-buttons []
   [:div {:id "category-buttons-container"
@@ -33,6 +33,7 @@
            :style {:backgroundColor (str "rgb(0,127,127)")
                    :border-style "solid"
                    :border-color "white"
+                   :position "absolute"
                    :transform (layout/to-css-matrix (layout/translate @x (+ @y 10)))
                    }}
      (for [p products]
@@ -64,7 +65,7 @@
   (send-get-catalog))
 
 
-;(send-get-catalog)
+                                        ;(send-get-catalog)
 
 
 (defn tween [property _ new-val]
