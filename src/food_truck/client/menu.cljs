@@ -1,4 +1,5 @@
 (ns food-truck.client.menu
+  (:require-macros [reagent.ratom :as ratom])
   (:require [food-truck.client.dom :as dom]
             [food-truck.client.ws :as ws :refer [process-msg]]
             [food-truck.matrix :as math]
@@ -8,10 +9,13 @@
 (enable-console-print!)
 
 (defonce catalog (r/atom nil))
+(def x (r/atom 200))
+
+(defonce style (ratom/reaction {:transform (math/to-css-matrix (math/translate-x math/origin @x)) }))
 
 (defn category-buttons []
   [:div {:id "category-buttons-container"
-         :style {:transform (math/to-css-matrix (math/translate-x math/origin 300)) }}
+         :style @style}
    (for [category @catalog
          :let [cat-name (:category/name category)]]
      [:button {:id cat-name
@@ -79,18 +83,18 @@
      (js/requestAnimationFrame animation-loop))))
 
 
-(def foo (dom/by-id "category-buttons-container"))
-(def style (. foo -style))
+;; (def foo (dom/by-id "category-buttons-container"))
+;; (def style (. foo -style))
 
-(def coords #js{:x 0 :y 0})
-(def t (.. (js/TWEEN.Tween. coords)
-               (to #js{:x 100 :y 100} 1000)
-               (onUpdate (fn []
-                           (this-as this
-                                    (println "this=" this))
-                           ))))
+;; (def coords #js{:x 0 :y 0})
+;; (def t (.. (js/TWEEN.Tween. coords)
+;;                (to #js{:x 100 :y 100} 1000)
+;;                (onUpdate (fn []
+;;                            (this-as this
+;;                                     (println "this=" this))
+;;                            ))))
 
-(.. t start)
+;; (.. t start)
 
-(animate (fn [time]
-           (.. js/TWEEN update)))
+;; (animate (fn [time]
+;;            (.. js/TWEEN update)))
