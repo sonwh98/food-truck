@@ -3,6 +3,7 @@
   (:require [food-truck.client.dom :as dom]
             [food-truck.client.ws :as ws :refer [process-msg]]
             [food-truck.client.layout :as layout]
+            [food-truck.client.tweenie]
             [reagent.core :as r]
             ))
 
