@@ -4,7 +4,7 @@
             [food-truck.client.ws :as ws :refer [process-msg]]
             [food-truck.client.layout :as layout]
             [reagent.core :as r]
-            [cljsjs.tween]))
+            ))
 
 (enable-console-print!)
 
@@ -20,7 +20,10 @@
    (for [category @catalog
          :let [cat-name (:category/name category)]]
      [:button {:id cat-name
-               :key cat-name} (str "bar1 " cat-name)])])
+               :key cat-name
+               :on-click (fn [evt]
+                           (println cat-name)
+                           )} cat-name])])
 
 (defn categories []
   (for [category @catalog
@@ -65,26 +68,7 @@
   (send-get-catalog))
 
 
-                                        ;(send-get-catalog)
-
-
-(defn tween [property _ new-val]
-  (let [duration 500]
-    (.. (js/TWEEN.Tween. property)
-        (to (clj->js new-val)
-            (+ (* (rand) duration)
-               duration))
-        (onUpdate (fn []
-                    (this-as this
-                             (println "this=" this))))
-        (easing (.. js/TWEEN -Easing -Exponential -InOut))
-        (start))))
-
-(defn animate [animation-fn]
-  ((fn animation-loop [time]
-     (animation-fn time)
-     (js/requestAnimationFrame animation-loop))))
-
+;;(send-get-catalog)
 
 ;; (def foo (dom/by-id "category-buttons-container"))
 ;; (def style (. foo -style))
