@@ -6,6 +6,7 @@
 (defonce div-type (type (js/document.createElement "div")))
 
 (defmulti position #(type %))
+(defmulti off-screen #(type %))
 
 (defn translate-x [x]
   [[1 0 x]
@@ -32,3 +33,11 @@
 (defmethod position str-type [id x y]
   (position (dom/by-id id) x y))
 
+(defmethod off-screen div-type [div]
+  (let [width (. div -offsetWidth)]
+    (println "width=" width)
+    (position div (* -1 width) 0)))
+
+(defmethod off-screen str-type [id]
+  (let [div (dom/by-id id)]
+    (off-screen div)))
