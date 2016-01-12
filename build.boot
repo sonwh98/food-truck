@@ -12,7 +12,6 @@
                  [org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.189"]
                  [reagent "0.5.1"]
-                 [cljsjs/tween "16.3.1"]
                  [org.clojure/core.logic "0.8.10"]
 
                  
