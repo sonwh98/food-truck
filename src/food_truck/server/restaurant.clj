@@ -10,5 +10,4 @@
 (defmethod process-msg :get-catalog [[websocket-channel [kw msg]]]
   (let [catalog (get-catalog)
         transit-msg (t/serialize [:catalog catalog])]
-    (println catalog)
     (ws/send! websocket-channel transit-msg)))
