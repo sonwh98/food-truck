@@ -12,8 +12,8 @@
         current-val (atom start-val)
         start-time (atom nil)
         tick-time (atom nil)]
-    (fn []
-      (let [now (js/Date.now) ]
+    (fn [time]
+      (let [now (js/performance.now) ]
         (if (nil? @start-time)
           (reset! start-time now))        
         (reset! tick-time now))
@@ -25,12 +25,16 @@
           (println "duration " (- @tick-time @start-time)) 
           (on-update @current-val)
           (reset! current-val next-val))
-        end-val))))
+        nil))))
 
-(defn animate [animation-fn]
+(defn animate [tween-fn]
   ((fn animation-loop [time]
-     (animation-fn time)
-     (js/requestAnimationFrame animation-loop))))
+     (let [request-id (js/requestAnimationFrame animation-loop)
+           return-val (tween-fn time)]
+       (if (nil? return-val)
+         (do
+           (println "cancel" request-id)
+           (js/cancelAnimationFrame request-id)))))))
 
 
 
@@ -43,5 +47,4 @@
                             )}))
 
 (defn doit []
-  (animate (fn [time]
-             (t))))
+  (animate t))
