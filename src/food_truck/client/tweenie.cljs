@@ -1,4 +1,6 @@
-(ns food-truck.client.tweenie)
+(ns food-truck.client.tweenie
+  (:require [food-truck.client.dom :as dom]
+            [food-truck.client.layout :as layout]))
 
 (enable-console-print!)
 
@@ -23,20 +25,25 @@
     (fn [time]
       (if (nil? @start-time)
         (reset! start-time time))
-      (easing-fn start-val end-val duration (- time @start-time)))))
+      (let [delta-time (- time @start-time)
+            val (easing-fn start-val end-val duration delta-time)]
+        (if (<= delta-time duration)
+          (on-update val))
+        val))))
 
 (defn animate [tween-fn]
   ((fn animation-loop [time]
-     (let [request-id (js/requestAnimationFrame animation-loop)
-           return-val (tween-fn time)]
-       (if (nil? return-val)
-         (js/cancelAnimationFrame request-id))))))
+     (tween-fn time)
+     (js/requestAnimationFrame animation-loop)
+     )))
 
-(def t (tween {:from 1 :to 10
-               :duration 10000
+(def t (tween {:from 1 :to 1000
+               :duration 1000
                :easing-fn linear-easing
                :on-update (fn [val]
-                            (println val)
+                            (let [s (dom/by-id "category-Sandwiches")]
+                              (layout/position s val 0))
+                            
                             )}))
 
 (defn doit []

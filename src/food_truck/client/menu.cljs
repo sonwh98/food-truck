@@ -23,34 +23,34 @@
      [:button {:id cat-name
                :key cat-name
                :on-click (fn [evt]
-                           (println cat-name)
+                           (println "cat" cat-name)
                            )} cat-name])])
 
 (defn categories []
-  (for [category @catalog
-        :let [color (-> (* (rand) 0.5) (+ 0.25))
-              products (:products category)
-              id (str "category-" (:category/name category))]]
-    [:div {:id    id
-           :key id
-           :class "category"
-           :style {:backgroundColor (str "rgb(0,127,127)")
-                   :border-style "solid"
-                   :border-color "white"
-                   :position "absolute"
-                   :transform (layout/to-css-matrix (layout/translate @x (+ @y 10)))
-                   }}
-     (for [p products]
-       [:button {:id (:product/sku p)
-                 :key (:product/sku p)
-                 :class "product"}
-        [:img {:src (or (:url p) "http://www.creattor.com/files/10/652/drinks-icons-screenshots-1.png")
-               :class "product-img"}]
-        [:div  (:product/name p)]])]))
+  (doall (for [category @catalog
+               :let [color (-> (* (rand) 0.5) (+ 0.25))
+                     products (:products category)
+                     id (str "category-" (:category/name category))]]
+           [:div {:id    id
+                  :key id
+                  :class "category"
+                  :style {:backgroundColor (str "rgb(0,127,127)")
+                          :border-style "solid"
+                          :border-color "white"
+                          :position "absolute"
+                          :transform (layout/to-css-matrix (layout/translate @x (+ @y 10)))
+                          }}
+            (for [p products]
+              [:button {:id (:product/sku p)
+                        :key (:product/sku p)
+                        :class "product"}
+               [:img {:src (or (:url p) "http://www.creattor.com/files/10/652/drinks-icons-screenshots-1.png")
+                      :class "product-img"}]
+               [:div  (:product/name p)]])])))
 
 (defn app []
   [:div
-   (category-buttons)
+   [category-buttons]
    (categories)])
 
 (defn build-ui []

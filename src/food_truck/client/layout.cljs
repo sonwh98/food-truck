@@ -22,10 +22,7 @@
   (matrix/multiply (translate-x x)
                    (translate-y y)))
 
-(defn animate [animation-fn]
-  ((fn animation-loop [time]
-     (animation-fn time)
-     (js/requestAnimationFrame animation-loop))))
+
 
 (defn to-css-matrix [m]
   (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))
