@@ -22,15 +22,16 @@
   (matrix/multiply (translate-x x)
                    (translate-y y)))
 
-
-
 (defn to-css-matrix [m]
   (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))
 
+(defn set-transform-matrix! [div matrix]
+  (set! (.. div -style -transform)
+        (to-css-matrix matrix)))
+
 (defmethod position div-type [div x y]
-  (let [transform (-> (translate x y)
-                      to-css-matrix)]
-    (set! (.. div -style -transform) transform)))
+  (let [translate-matrix (translate x y)]
+    (set-transform-matrix! div translate-matrix)))
 
 (defmethod position js/String [id x y]
   (position (dom/by-id id) x y))
