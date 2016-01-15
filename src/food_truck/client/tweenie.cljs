@@ -1,5 +1,6 @@
 (ns food-truck.client.tweenie
   (:require [food-truck.client.dom :as dom]
+            [food-truck.matrix :as matrix]
             [food-truck.client.layout :as layout]))
 
 (enable-console-print!)
@@ -25,7 +26,17 @@
                             (js/Math.pow (- 1 fraction-of-time) 5))]
     (+ start-val (additional-distance start-val end-val fraction-of-time))))
 
-(defn tween [config-map]
+(defmulti tween (fn [config-map]
+                  (let [start-val (:from config-map)
+                        type-start-val (type start-val)]
+                    (cond
+                      (= type-start-val cljs.core/PersistentVector) (if (= (-> start-val first type)
+                                                                           js/Number)
+                                                                      :vector
+                                                                      :matrix)
+                      (= type-start-val js/Number) :number))))
+
+(defmethod tween :number [config-map]
   (let [start-val (:from config-map)
         end-val (:to config-map)
         duration (:duration config-map)
@@ -41,11 +52,20 @@
           (on-update val))
         val))))
 
+(defmethod tween :vector [config-map]
+  (println "vector")
+  )
+
+(defmethod tween :matrix [config-map]
+  (println "matrix")
+  )
+
 (defn animate [tween-fn]
   ((fn animation-loop [clock-time]
      (tween-fn clock-time)
      (js/requestAnimationFrame animation-loop)
      )))
+
 
 (def t (tween {:from      1 :to 1000
                :duration  1000
@@ -53,8 +73,13 @@
                :on-update (fn [val]
                             (let [s (dom/by-id "category-Sandwiches")]
                               (layout/position s val 0))
-                            
                             )}))
 
+(def t2 (tween {:from [0 0 0] :to [10 10 10]
+                :duration 1000
+                :easing-fn ease-out
+                :on-update println}))
 (defn doit []
   (animate t))
+
+
