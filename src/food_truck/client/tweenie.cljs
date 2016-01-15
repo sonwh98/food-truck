@@ -47,13 +47,31 @@
       (if (nil? @start-time)
         (reset! start-time clock-time))
       (let [time-from-start-time (- clock-time @start-time)
-            val (easing-fn start-val end-val duration time-from-start-time)]
+            tweened-val (easing-fn start-val end-val duration time-from-start-time)]
         (if (<= time-from-start-time duration)
-          (on-update val))
-        val))))
+          (on-update tweened-val))
+        tweened-val))))
 
 (defmethod tween :vector [config-map]
-  (println "vector")
+  (let [start-vector (:from config-map)
+        end-vector (:to config-map)
+        duration (:duration config-map)
+        easing-fn (:easing-fn config-map)
+        on-update (:on-update config-map)
+        start-time (atom nil)]
+    (fn [clock-time]
+
+      (if (nil? @start-time)
+        (reset! start-time clock-time))
+      (let [time-from-start-time (- clock-time @start-time)
+            start-vector-with-index (map-indexed (fn [i val] [i val]) start-vector)
+            tweened-vector (mapv (fn [[i start-val]]
+                                   (let [end-val (end-vector i)]
+                                     (easing-fn start-val end-val duration time-from-start-time)))
+                                 start-vector-with-index)]
+        (if (<= time-from-start-time duration)
+          (on-update tweened-vector))
+        tweened-vector)))
   )
 
 (defmethod tween :matrix [config-map]
@@ -75,11 +93,14 @@
                               (layout/position s val 0))
                             )}))
 
-(def t2 (tween {:from [0 0 0] :to [10 10 10]
-                :duration 1000
-                :easing-fn ease-out
-                :on-update println}))
+(def t2 (tween {:from [0 0] :to [1000 200]
+                :duration 10000
+                :easing-fn ease-linear
+                :on-update (fn [[x y]]
+                             (let [s (dom/by-id "category-Sandwiches")]
+                               (layout/position s x y))
+                             )}))
 (defn doit []
-  (animate t))
+  (animate t2))
 
 
