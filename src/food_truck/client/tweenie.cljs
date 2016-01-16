@@ -120,9 +120,9 @@
                                (layout/position s x y))
                              )}))
 
-(def t3 (tween {:from matrix/origin :to (matrix/multiply
-                                         (layout/translate-x 1000)
-                                         (layout/translate-y 200))
+(def t3 (tween {:from matrix/identity-matrix :to (matrix/multiply
+                                                  (layout/translate-x 1000)
+                                                  (layout/translate-y 200))
                 :duration 10000
                 :easing-fn ease-out
                 :on-update (fn [m]

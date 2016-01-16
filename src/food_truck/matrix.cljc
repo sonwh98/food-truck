@@ -1,10 +1,13 @@
 (ns food-truck.matrix
   (:require [food-truck.util :as util]))
 
-(def zero-vector [0 0 0])
-(def origin [zero-vector
-             zero-vector
-             zero-vector])
+(defonce zero-vector [0 0 0])
+(defonce zero-matrix [zero-vector
+                      zero-vector
+                      zero-vector])
+(defonce identity-matrix [[1 0 0]
+                          [0 1 0]
+                          [0 0 1]])
 
 (defn row
   "i th row of a matrix m"
