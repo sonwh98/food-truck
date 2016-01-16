@@ -22,6 +22,20 @@
   (matrix/multiply (translate-x x)
                    (translate-y y)))
 
+(defn scale-x [factor]
+  [[factor 0 0]
+   [0 1 0]
+   [0 0 1]])
+
+(defn scale-y [factor]
+  [[1 0 0]
+   [0 factor 0]
+   [0 0 1]])
+
+(defn scale [factor]
+  (matrix/multiply (scale-x factor)
+                   (scale-y factor)))
+
 (defn to-css-matrix [m]
   (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))
 
