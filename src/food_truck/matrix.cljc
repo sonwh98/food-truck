@@ -23,10 +23,10 @@
                 (* v1-ith-element v2-ith-element)))))
 
 (defn multiply [a b]
-  (for [[i a-row]  (util/with-index a)]
-    (for [j (-> b first count range)
-          :let [b-column (column b j)]]
-      (dot-product a-row b-column))))
+  (vec (for [[i a-row]  (util/with-index a)]
+         (vec (for [j (-> b first count range)
+                    :let [b-column (column b j)]]
+                (dot-product a-row b-column))))))
 
 (defn add [a b]
   (for [[i a-row] (util/with-index a)
