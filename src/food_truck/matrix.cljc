@@ -25,11 +25,16 @@
                     :let [v2-ith-element (nth v2 i)]]
                 (* v1-ith-element v2-ith-element)))))
 
-(defn multiply [a b]
-  (vec (for [[i a-row]  (util/with-index a)]
-         (vec (for [j (-> b first count range)
-                    :let [b-column (column b j)]]
-                (dot-product a-row b-column))))))
+(defn multiply
+  ([a] a)
+  ([a b]
+   (vec (for [[i a-row]  (util/with-index a)]
+          (vec (for [j (-> b first count range)
+                     :let [b-column (column b j)]]
+                 (dot-product a-row b-column))))))
+  ([a b & matrices]
+   (let [r (into [(multiply a b)] matrices)]
+     (reduce multiply r))))
 
 (defn add [a b]
   (for [[i a-row] (util/with-index a)
