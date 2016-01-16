@@ -122,7 +122,9 @@
 
 (def t3 (tween {:from matrix/identity-matrix :to (matrix/multiply
                                                   (layout/translate-x 1000)
-                                                  (layout/translate-y 200))
+                                                  (layout/translate-y 200)
+                                                  (layout/scale 1.5)
+                                                  )
                 :duration 10000
                 :easing-fn ease-out
                 :on-update (fn [m]
@@ -131,7 +133,8 @@
                                )
                              )}))
 
-(defn doit []
-  (animate t3))
+(defn doit [& args]
+  (animate t3)
+  )
 
 
