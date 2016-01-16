@@ -1,6 +1,7 @@
 (ns food-truck.client.tweenie
   (:require [food-truck.client.dom :as dom]
             [food-truck.matrix :as matrix]
+            [food-truck.util :as util]
             [food-truck.client.layout :as layout]))
 
 (enable-console-print!)
@@ -60,7 +61,6 @@
         on-update (:on-update config-map)
         start-time (atom nil)]
     (fn [clock-time]
-
       (if (nil? @start-time)
         (reset! start-time clock-time))
       (let [time-from-start-time (- clock-time @start-time)
@@ -71,12 +71,31 @@
                                  start-vector-with-index)]
         (if (<= time-from-start-time duration)
           (on-update tweened-vector))
-        tweened-vector)))
-  )
+        tweened-vector))))
 
 (defmethod tween :matrix [config-map]
-  (println "matrix")
-  )
+  (let [start-matrix (:from config-map)
+        end-matrix (:to config-map)
+        duration (:duration config-map)
+        easing-fn (:easing-fn config-map)
+        on-update (:on-update config-map)
+        start-time (atom nil)]
+    (fn [clock-time]
+      (if (nil? @start-time)
+        (reset! start-time clock-time))
+      (let [time-from-start-time (- clock-time @start-time)
+            start-rows-with-index (map-indexed (fn [i row] [i row]) start-matrix)
+            tweened-vector (mapv (fn [[i start-row]]
+                                   (let [start-row-with-index (util/with-index start-row)
+                                         end-row (end-matrix i)]
+                                     (mapv (fn [[j start-val]]
+                                             (let [end-val (end-row j)]
+                                               (easing-fn start-val end-val duration time-from-start-time)))
+                                           start-row-with-index)))
+                                 start-rows-with-index)]
+        (if (<= time-from-start-time duration)
+          (on-update tweened-vector))
+        tweened-vector))))
 
 (defn animate [tween-fn]
   ((fn animation-loop [clock-time]
@@ -100,7 +119,19 @@
                              (let [s (dom/by-id "category-Sandwiches")]
                                (layout/position s x y))
                              )}))
+
+(def t3 (tween {:from matrix/origin :to (matrix/multiply
+                                         (layout/translate-x 1000)
+                                         (layout/translate-y 200))
+                :duration 10000
+                :easing-fn ease-out
+                :on-update (fn [m]
+                             (let [s (dom/by-id "category-Sandwiches")]
+                               (layout/set-transform-matrix! s m)
+                               )
+                             )}))
+
 (defn doit []
-  (animate t2))
+  (animate t3))
 
 
