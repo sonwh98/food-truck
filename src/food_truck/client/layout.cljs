@@ -1,6 +1,7 @@
 (ns food-truck.client.layout
   (:require [food-truck.matrix :as matrix]
-            [food-truck.client.dom :as dom]))
+            [food-truck.client.dom :as dom]
+            [clojure.string]))
 
 (defonce div-type (type (js/document.createElement "div")))
 
@@ -60,7 +61,7 @@
 
 (defmethod on-screen div-type [div]
   (let [width (. div -offsetWidth)]
-    (position div 0 0)))
+    (position div 0 20)))
 
 (defmethod on-screen js/String [id]
   (let [div (dom/by-id id)]
