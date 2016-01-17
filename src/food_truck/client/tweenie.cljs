@@ -104,37 +104,33 @@
      )))
 
 
-(def t (tween {:from      1 :to 1000
-               :duration  1000
-               :easing-fn ease-out
-               :on-update (fn [val]
-                            (let [s (dom/by-id "category-Sandwiches")]
-                              (layout/position s val 0))
-                            )}))
+;; (def t (tween {:from      1 :to 1000
+;;                :duration  1000
+;;                :easing-fn ease-out
+;;                :on-update (fn [val]
+;;                             (let [s (dom/by-id "category-Sandwiches")]
+;;                               (layout/position s val 0))
+;;                             )}))
 
-(def t2 (tween {:from [0 0] :to [1000 200]
-                :duration 10000
-                :easing-fn ease-linear
-                :on-update (fn [[x y]]
-                             (let [s (dom/by-id "category-Sandwiches")]
-                               (layout/position s x y))
-                             )}))
+;; (def t2 (tween {:from [0 0] :to [1000 200]
+;;                 :duration 10000
+;;                 :easing-fn ease-linear
+;;                 :on-update (fn [[x y]]
+;;                              (let [s (dom/by-id "category-Sandwiches")]
+;;                                (layout/position s x y))
+;;                              )}))
 
-(def t3 (tween {:from matrix/identity-matrix :to (matrix/multiply
-                                                  (layout/translate-x 1000)
-                                                  (layout/translate-y 200)
-                                                  (layout/scale 1.5)
-                                                  )
-                :duration 10000
-                :easing-fn ease-out
-                :on-update (fn [m]
-                             (let [s (dom/by-id "category-Sandwiches")]
-                               (layout/set-transform-matrix! s m)
-                               )
-                             )}))
-
-(defn doit [& args]
-  (animate t3)
-  )
+;; (def t3 (tween {:from matrix/identity-matrix :to (matrix/multiply
+;;                                                   (layout/translate-x 1000)
+;;                                                   (layout/translate-y 200)
+;;                                                   (layout/scale 1.5)
+;;                                                   )
+;;                 :duration 10000
+;;                 :easing-fn ease-out
+;;                 :on-update (fn [m]
+;;                              (let [s (dom/by-id "category-Sandwiches")]
+;;                                (layout/set-transform-matrix! s m)
+;;                                )
+;;                              )}))
 
 
