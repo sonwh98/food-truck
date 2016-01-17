@@ -10,6 +10,7 @@
 (enable-console-print!)
 
 (defonce catalog (r/atom nil))
+(def active-category (r/atom "category-Sandwiches"))
 (def x (r/atom 10))
 (def y (r/atom 10))
 
@@ -23,7 +24,12 @@
      [:button {:id cat-name
                :key cat-name
                :on-click (fn [evt]
-                           (layout/on-screen (str "category-" cat-name))
+                           (let [new-active-category (str "category-" cat-name)]
+                             (layout/off-screen @active-category)
+                             (layout/on-screen new-active-category)
+                             (reset! active-category new-active-category)
+                             )
+                           
                            )} cat-name])])
 
 (defn category [cat]
