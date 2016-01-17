@@ -23,7 +23,7 @@
      [:button {:id cat-name
                :key cat-name
                :on-click (fn [evt]
-                           (println "cat" cat-name)
+                           (layout/on-screen (str "category-" cat-name))
                            )} cat-name])])
 
 (defn category [cat]
