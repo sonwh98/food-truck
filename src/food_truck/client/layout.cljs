@@ -8,6 +8,7 @@
 (defmulti position #(type %))
 (defmulti off-screen #(type %))
 (defmulti on-screen #(type %))
+(defmulti rotate #(type %))
 
 (defn to-css-matrix [m]
   (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))
@@ -38,3 +39,9 @@
 (defmethod on-screen js/String [id]
   (let [div (dom/by-id id)]
     (on-screen div)))
+
+(defmethod rotate div-type [div theta]
+  (set-transform-matrix! div (matrix/rotate theta)))
+
+(defmethod rotate js/String [id theta]
+  (rotate  (dom/by-id id) theta))
