@@ -37,22 +37,27 @@
 
 (defmethod off-screen div-type [div]
   (let [width (. div -offsetWidth)
-        bounding-rect (. div getBoundingClientRect)
-        t (tweenie/tween {:from      1 :to 1000
+        m  (str->matrix (.. div -style -transform))
+        y (-> m second last)
+        t (tweenie/tween {:from      0 :to width
                           :duration  1000
                           :easing-fn tweenie/ease-out
                           :on-update (fn [val]
-                                       (position div val 0))})]
-    (println (.. div -style -transform))
-    (position div (* -1 width) 0)))
+                                       (position div (* -1 val) 20))})]
+    (tweenie/animate t)))
 
 (defmethod off-screen js/String [id]
   (let [div (dom/by-id id)]
     (off-screen div)))
 
 (defmethod on-screen div-type [div]
-  (let [width (. div -offsetWidth)]
-    (position div 0 20)))
+  (let [width (. div -offsetWidth)
+        t (tweenie/tween {:from      (* -1 width) :to 0
+                          :duration  1000
+                          :easing-fn tweenie/ease-out
+                          :on-update (fn [val]
+                                       (position div val 20))})]
+    (tweenie/animate t)))
 
 (defmethod on-screen js/String [id]
   (let [div (dom/by-id id)]
