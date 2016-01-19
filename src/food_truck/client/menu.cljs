@@ -38,32 +38,26 @@
     (r/create-class  
      {:key (str cat)
       :component-did-mount #(layout/off-screen (str "category-" cat-name))
-      
-      :component-will-mount 
-      #(println "component-will-mount") 
+      :component-will-mount #(println "component-will-mount") 
       :display-name  cat-name
-      
-      :reagent-render 
-      (fn [category]
-        (let [id (str "category-" cat-name)]
-          [:div {:id    id
-                 :key id
-                 :class "category"
-                 :style {:backgroundColor (str "rgb(0,127,127)")
-                         :border-style "solid"
-                         :border-color "white"
-                         :position "absolute"
-                         :transform (layout/to-css-matrix (matrix/translate @x (+ @y 10)))
-                         }}
-           (for [p (:products category)]
-             [:button {:id (:product/sku p)
-                       :key (:product/sku p)
-                       :class "product"}
-              [:img {:src (or (:url p) "http://www.creattor.com/files/10/652/drinks-icons-screenshots-1.png")
-                     :class "product-img"}]
-              [:div  (:product/name p)]])])
-        
-        )})))
+      :reagent-render (fn [category]
+                        (let [id (str "category-" cat-name)]
+                          [:div {:id    id
+                                 :key id
+                                 :class "category"
+                                 :style {:backgroundColor (str "rgb(0,127,127)")
+                                         :border-style "solid"
+                                         :border-color "white"
+                                         :position "absolute"}}
+                           (for [p (:products category)]
+                             [:button {:id (:product/sku p)
+                                       :key (:product/sku p)
+                                       :class "product"}
+                              [:img {:src (or (:url p) "http://www.creattor.com/files/10/652/drinks-icons-screenshots-1.png")
+                                     :class "product-img"}]
+                              [:div  (:product/name p)]])])
+                        
+                        )})))
 
 
 (defn app []
