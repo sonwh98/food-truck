@@ -28,10 +28,14 @@
 (defn multiply
   ([a] a)
   ([a b]
-   (vec (for [[i a-row]  (util/with-index a)]
-          (vec (for [j (-> b first count range)
-                     :let [b-column (column b j)]]
-                 (dot-product a-row b-column))))))
+   (cond
+     (and (number? a) (vector? b)) (vec (for [row b]
+                                          (mapv #(* a %) row)))
+     (and (number? b) (vector? a)) (multiply b a)
+     :else (vec (for [[i a-row]  (util/with-index a)]
+                  (vec (for [j (-> b first count range)
+                             :let [b-column (column b j)]]
+                         (dot-product a-row b-column)))))))
   ([a b & matrices]
    (let [r (into [(multiply a b)] matrices)]
      (reduce multiply r))))
