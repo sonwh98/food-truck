@@ -10,3 +10,9 @@
   [a-seq]
   (map-indexed (fn [i element] [i element])
                a-seq))
+
+(defn deg->rad [deg]
+  (-> deg (/ 180)  (* js/Math.PI)))
+
+(defn rad->deg [rad]
+  (-> rad (/ js/Math.PI) (* 180)))
