@@ -46,3 +46,23 @@
     (for [[j a-val] (util/with-index a-row)
           :let [b-val (nth b-row j)]]
       (+  a-val b-val))))
+
+(defn skew-x [x]
+  [ [1 (js/Math.tan x) 0]
+    [0 1 0]
+    [0 0 1]
+    ])
+
+(defn skew-y [y]
+  [[1 0 0]
+   [(js/Math.tan y) 1 0]
+   [0 0 1]])
+
+(defn skew [x y]
+  (matrix/multiply (skew-x x)
+                   (skew-y y)))
+
+(defn rotate [theta]
+  [ [(js/Math.cos theta) (- (js/Math.sin theta) 0)]
+    [(js/Math.sin theta) (js/Math.cos theta) 0]
+    [0 0 1]])
