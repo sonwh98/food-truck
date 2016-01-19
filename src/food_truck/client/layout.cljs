@@ -1,6 +1,7 @@
 (ns food-truck.client.layout
   (:require [food-truck.matrix :as matrix]
             [food-truck.client.dom :as dom]
+            [food-truck.client.tweenie :as tweenie]
             [clojure.string]))
 
 (defonce div-type (type (js/document.createElement "div")))
@@ -10,12 +11,15 @@
 (defmulti on-screen #(type %))
 (defmulti rotate #(type %))
 
-(defn to-css-matrix [m]
+(defn matrix->css [m]
   (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))
+
+(defn css->matrix [css-transform]
+  )
 
 (defn set-transform-matrix! [div matrix]
   (set! (.. div -style -transform)
-        (to-css-matrix matrix)))
+        (matrix->css matrix)))
 
 (defmethod position div-type [div x y]
   (let [translate-matrix (matrix/translate x y)]
@@ -25,7 +29,14 @@
   (position (dom/by-id id) x y))
 
 (defmethod off-screen div-type [div]
-  (let [width (. div -offsetWidth)]
+  (let [width (. div -offsetWidth)
+        bounding-rect (. div getBoundingClientRect)
+        t (tweenie/tween {:from      1 :to 1000
+                          :duration  1000
+                          :easing-fn tweenie/ease-out
+                          :on-update (fn [val]
+                                       (position div val 0))})]
+    (println (.. div -style -transform))
     (position div (* -1 width) 0)))
 
 (defmethod off-screen js/String [id]

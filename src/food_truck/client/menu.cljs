@@ -15,7 +15,7 @@
 (def x (r/atom 10))
 (def y (r/atom 10))
 
-(defonce style (ratom/reaction {:transform (layout/to-css-matrix (matrix/translate @x @y))}))
+(defonce style (ratom/reaction {:transform (layout/matrix->css (matrix/translate @x @y))}))
 
 (defn category-buttons []
   [:div {:id "category-buttons-container"
