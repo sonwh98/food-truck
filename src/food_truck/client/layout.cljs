@@ -2,7 +2,7 @@
   (:require [food-truck.matrix :as matrix]
             [food-truck.client.dom :as dom]
             [food-truck.client.tweenie :as tweenie]
-            [clojure.string]))
+            [clojure.string :as clj-str]))
 
 (defonce div-type (type (js/document.createElement "div")))
 
@@ -15,7 +15,14 @@
   (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))
 
 (defn str->matrix [matrix-str]
-  )
+  (let [vector-of-number (mapv #(js/Number. %)
+                               (-> matrix-str
+                                   (clj-str/replace #"matrix" "")
+                                   (clj-str/replace #"[\(\)]" "")
+                                   (clj-str/split ",")))
+        two-d-transform [0 0 1]
+        matrix (vec (partition 3 vector-of-number))]
+    (conj matrix two-d-transform)))
 
 (defn set-transform-matrix! [div matrix]
   (set! (.. div -style -transform)
