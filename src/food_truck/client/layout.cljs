@@ -11,15 +11,15 @@
 (defmulti on-screen #(type %))
 (defmulti rotate #(type %))
 
-(defn matrix->css [m]
+(defn matrix->str [m]
   (str "matrix(" (clojure.string/join "," (interleave (first m) (second m))) ")"))
 
-(defn css->matrix [css-transform]
+(defn str->matrix [matrix-str]
   )
 
 (defn set-transform-matrix! [div matrix]
   (set! (.. div -style -transform)
-        (matrix->css matrix)))
+        (matrix->str matrix)))
 
 (defmethod position div-type [div x y]
   (let [translate-matrix (matrix/translate x y)]
