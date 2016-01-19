@@ -2,6 +2,7 @@
   (:require-macros [reagent.ratom :as ratom])
   (:require [food-truck.client.dom :as dom]
             [food-truck.client.ws :as ws :refer [process-msg]]
+            [food-truck.matrix :as matrix]
             [food-truck.client.layout :as layout]
             [food-truck.client.tweenie]
             [reagent.core :as r]
@@ -14,7 +15,7 @@
 (def x (r/atom 10))
 (def y (r/atom 10))
 
-(defonce style (ratom/reaction {:transform (layout/to-css-matrix (layout/translate @x @y))}))
+(defonce style (ratom/reaction {:transform (layout/to-css-matrix (matrix/translate @x @y))}))
 
 (defn category-buttons []
   [:div {:id "category-buttons-container"
@@ -52,7 +53,7 @@
                          :border-style "solid"
                          :border-color "white"
                          :position "absolute"
-                         :transform (layout/to-css-matrix (layout/translate @x (+ @y 10)))
+                         :transform (layout/to-css-matrix (matrix/translate @x (+ @y 10)))
                          }}
            (for [p (:products category)]
              [:button {:id (:product/sku p)
