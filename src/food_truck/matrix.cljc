@@ -63,7 +63,7 @@
             (skew-y y)))
 
 (defn rotate [theta]
-  [ [(js/Math.cos theta) (- (js/Math.sin theta) 0)]
+  [ [(js/Math.cos theta) (- (js/Math.sin theta)) 0]
     [(js/Math.sin theta) (js/Math.cos theta) 0]
     [0 0 1]])
 
