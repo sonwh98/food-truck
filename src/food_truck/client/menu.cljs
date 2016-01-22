@@ -84,25 +84,6 @@
   (println "reload")
   (send-get-catalog))
 
-
-;;(send-get-catalog)
-
-;; (def foo (dom/by-id "category-buttons-container"))
-;; (def style (. foo -style))
-
-;; (def coords #js{:x 0 :y 0})
-;; (def t (.. (js/TWEEN.Tween. coords)
-;;                (to #js{:x 100 :y 100} 1000)
-;;                (onUpdate (fn []
-;;                            (this-as this
-;;                                     (println "this=" this))
-;;                            ))))
-
-;; (.. t start)
-
-;; (animate (fn [time]
-;;            (.. js/TWEEN update)))
-
 (defn my-component
   [x y z]
   (r/create-class  ;; <-- expects a map of functions
