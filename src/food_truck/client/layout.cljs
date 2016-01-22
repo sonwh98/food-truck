@@ -1,5 +1,5 @@
 (ns food-truck.client.layout
-  (:require [food-truck.matrix :as matrix]
+  (:require [neo-matrix.core :as matrix]
             [food-truck.client.dom :as dom]
             [food-truck.client.tweenie :as tweenie]
             [clojure.string :as clj-str]))
