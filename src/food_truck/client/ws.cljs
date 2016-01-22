@@ -3,7 +3,7 @@
   (:require [chord.client :refer [ws-ch]]
             [cljs.core.async :refer [<! >! put! chan]]
             [com.kaicode.mercury :as m]
-            [food-truck.transit :as t]))
+            [com.kaicode.teleport :as t]))
 
 ;;server-websocket-channel contains a bidirectional core.async channel used to send and read messages from the server
 (def server-websocket-channel (atom nil))

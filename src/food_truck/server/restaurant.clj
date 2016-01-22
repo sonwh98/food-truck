@@ -1,7 +1,7 @@
 (ns food-truck.server.restaurant
   (:require [clojure.core.async :refer [>! go]]
             [food-truck.server.db :as db]
-            [food-truck.transit :as t]
+            [com.kaicode.teleport :as t]
             [food-truck.server.ws :as ws :refer [process-msg]]))
 
 (defn get-catalog []

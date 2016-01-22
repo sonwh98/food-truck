@@ -1,7 +1,7 @@
 (ns food-truck.server.ws
   (:require [datomic.api :as d]
             [clojure.core.async :refer [<! >! put! close! go go-loop]]
-            [food-truck.transit :as t]
+            [com.kaicode.teleport :as t]
             [chord.http-kit :refer [with-channel]]
             [environ.core :refer [env]]))
 

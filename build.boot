@@ -30,12 +30,11 @@
                  [ring/ring-defaults "0.1.5"]
                  [compojure "1.4.0"]
                  [http-kit "2.1.19"]
-                 [jarohen/chord "0.6.0"]
 
-                 [com.cognitect/transit-clj "0.8.285"]
-                 [com.cognitect/transit-cljs "0.8.225"]
                  [com.kaicode/morpheus "0.1.1-SNAPSHOT"]
                  [com.kaicode/mercury "0.1.1-SNAPSHOT"]
+                 [com.kaicode/teleport "0.1.1-SNAPSHOT"]
+                 [jarohen/chord "0.6.0"]
                  ])
 
 (require
