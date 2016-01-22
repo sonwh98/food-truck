@@ -1,6 +1,5 @@
 (ns food-truck.client.tweenie
-  (:require [food-truck.client.dom :as dom]
-            [food-truck.util :as util]))
+  (:require [food-truck.util :as util]))
 
 (enable-console-print!)
 
