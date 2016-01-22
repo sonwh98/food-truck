@@ -1,6 +1,6 @@
 (ns food-truck.client.layout
   (:require [com.kaicode.morpheus.transform :as transform]
-            [food-truck.client.dom :as dom]
+            [domina :as dom]
             [food-truck.client.tweenie :as tweenie]
             [clojure.string :as clj-str]))
 
