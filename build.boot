@@ -31,7 +31,7 @@
                  [compojure "1.4.0"]
                  [http-kit "2.1.19"]
 
-                 [com.kaicode/morpheus "0.1.1-SNAPSHOT"]
+                 [com.kaicode/morpheus "0.1.2-SNAPSHOT"]
                  [com.kaicode/mercury "0.1.1-SNAPSHOT"]
                  [com.kaicode/teleport "0.1.1-SNAPSHOT"]
                  [jarohen/chord "0.7.0"]

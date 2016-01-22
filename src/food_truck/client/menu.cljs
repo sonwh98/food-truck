@@ -2,7 +2,8 @@
   (:require-macros [reagent.ratom :as ratom])
   (:require [food-truck.client.dom :as dom]
             [food-truck.client.ws :as ws :refer [process-msg]]
-            [com.kaicode.morpheus :as matrix]
+            [com.kaicode.morpheus.transform :as transform]
+            ;;[com.kaicode.morpheus.matrix :as matrix]
             [food-truck.client.layout :as layout]
             [food-truck.client.tweenie]
             [reagent.core :as r]
@@ -15,7 +16,7 @@
 (def x (r/atom 10))
 (def y (r/atom 10))
 
-(defonce style (ratom/reaction {:transform (layout/matrix->str (matrix/translate @x @y))}))
+(defonce style (ratom/reaction {:transform (layout/matrix->str (transform/translate @x @y))}))
 
 (defn category-buttons []
   [:div {:id "category-buttons-container"

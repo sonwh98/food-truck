@@ -1,5 +1,5 @@
 (ns food-truck.client.layout
-  (:require [com.kaicode.morpheus :as matrix]
+  (:require [com.kaicode.morpheus.transform :as transform]
             [food-truck.client.dom :as dom]
             [food-truck.client.tweenie :as tweenie]
             [clojure.string :as clj-str]))
@@ -29,7 +29,7 @@
         (matrix->str matrix)))
 
 (defmethod position div-type [div x y]
-  (let [translate-matrix (matrix/translate x y)]
+  (let [translate-matrix (transform/translate x y)]
     (set-transform-matrix! div translate-matrix)))
 
 (defmethod position js/String [id x y]
@@ -64,7 +64,7 @@
     (on-screen div)))
 
 (defmethod rotate div-type [div theta]
-  (set-transform-matrix! div (matrix/rotate theta)))
+  (set-transform-matrix! div (transform/rotate theta)))
 
 (defmethod rotate js/String [id theta]
   (rotate  (dom/by-id id) theta))
