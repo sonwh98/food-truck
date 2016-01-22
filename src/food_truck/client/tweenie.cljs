@@ -2,7 +2,7 @@
   (:require [food-truck.client.dom :as dom]
             [food-truck.matrix :as matrix]
             [food-truck.util :as util]
-            [food-truck.client.layout :as layout]))
+            ))
 
 (enable-console-print!)
 
