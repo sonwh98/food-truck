@@ -34,7 +34,9 @@
 
                  [com.cognitect/transit-clj "0.8.285"]
                  [com.cognitect/transit-cljs "0.8.225"]
-                 [neo-matrix "0.1.3-SNAPSHOT"]])
+                 [neo-matrix "0.1.3-SNAPSHOT"]
+                 [com.kaicode/mercury "0.1.1-SNAPSHOT"]
+                 ])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]
@@ -70,14 +72,14 @@
 
 (deftask build-all []
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
-                           food-truck.messaging food-truck.transit})
+                           food-truck.transit})
         (cljs)))
 
 ;;boot environ -e db-url="datomic:free://localhost:4334/four" start
 ;;boot repl -c 
 (deftask start []
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
-                           food-truck.messaging food-truck.transit})
+                           food-truck.transit})
 
         (with-pre-wrap fileset
           (println "db-url=" (env :db-url))
@@ -92,7 +94,7 @@
 
 (deftask build-jar []
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
-                           food-truck.messaging food-truck.transit})
+                           food-truck.transit})
         (cljs)
         (pom :project 'food-truck
              :version "0.1.0")

@@ -2,7 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [chord.client :refer [ws-ch]]
             [cljs.core.async :refer [<! >! put! chan]]
-            [food-truck.messaging :as m]
+            [com.kaicode.mercury :as m]
             [food-truck.transit :as t]))
 
 ;;server-websocket-channel contains a bidirectional core.async channel used to send and read messages from the server

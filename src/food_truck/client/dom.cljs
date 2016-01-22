@@ -1,5 +1,5 @@
 (ns food-truck.client.dom
-  (:require [food-truck.messaging :as m]
+  (:require [com.kaicode.mercury :as m]
             [cljs.core.async :refer [put! chan]]))
 
 (def window js/window)
