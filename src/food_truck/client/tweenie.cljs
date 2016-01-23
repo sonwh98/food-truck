@@ -1,5 +1,5 @@
 (ns food-truck.client.tweenie
-  (:require [food-truck.util :as util]))
+  (:require [com.kaicode.tily :as util]))
 
 (enable-console-print!)
 
