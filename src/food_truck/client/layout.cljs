@@ -1,7 +1,8 @@
 (ns food-truck.client.layout
   (:require [com.kaicode.morpheus.transform :as transform]
+            [com.kaicode.tweenie :as tweenie]
             [domina :as dom]
-            [food-truck.client.tweenie :as tweenie]
+
             [clojure.string :as clj-str]))
 
 (defonce div-type (type (js/document.createElement "div")))
