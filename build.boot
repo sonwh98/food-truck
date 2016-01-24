@@ -34,8 +34,10 @@
                  [com.kaicode/morpheus "0.1.2-SNAPSHOT"]
                  [com.kaicode/mercury "0.1.1-SNAPSHOT"]
                  [com.kaicode/teleport "0.1.1-SNAPSHOT"]
+                 [com.kaicode/wocket "0.1.1-SNAPSHOT"]
                  [com.kaicode/tily "0.1.1-SNAPSHOT"]
                  [com.kaicode/tweenie "0.1.1-SNAPSHOT"]
+
                  [jarohen/chord "0.7.0"]
                  [domina "1.0.3"]])
 
@@ -72,14 +74,14 @@
         (run)))
 
 (deftask build-all []
-  (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
+  (comp (aot :namespace '#{food-truck.server.main food-truck.server.db  food-truck.server.restaurant
                            food-truck.transit})
         (cljs)))
 
 ;;boot environ -e db-url="datomic:free://localhost:4334/four" start
 ;;boot repl -c 
 (deftask start []
-  (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
+  (comp (aot :namespace '#{food-truck.server.main food-truck.server.db  food-truck.server.restaurant
                            food-truck.transit})
 
         (with-pre-wrap fileset
@@ -94,7 +96,7 @@
         (cljs)))
 
 (deftask build-jar []
-  (comp (aot :namespace '#{food-truck.server.main food-truck.server.db food-truck.server.ws food-truck.server.restaurant
+  (comp (aot :namespace '#{food-truck.server.main food-truck.server.db  food-truck.server.restaurant
                            food-truck.transit})
         (cljs)
         (pom :project 'food-truck

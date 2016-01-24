@@ -4,7 +4,7 @@
             [compojure.route :as route]
             [compojure.handler :refer [site]]
             [compojure.core :refer [defroutes]]
-            [food-truck.server.ws :as ws]
+            [com.kaicode.wocket.server :as ws]
             [food-truck.server.restaurant]
             [com.stuartsierra.component :as component]
             [environ.core :refer [env]]

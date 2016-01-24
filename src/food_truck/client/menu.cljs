@@ -1,7 +1,7 @@
 (ns food-truck.client.menu
   (:require-macros [reagent.ratom :as ratom])
   (:require [food-truck.client.dom :as dom]
-            [food-truck.client.ws :as ws :refer [process-msg]]
+            [com.kaicode.wocket.client :as ws :refer [process-msg]]
             [com.kaicode.morpheus.transform :as transform]
             [food-truck.client.layout :as layout]
             [reagent.core :as r]
