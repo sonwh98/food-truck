@@ -10,7 +10,7 @@
 (enable-console-print!)
 
 (defonce catalog (r/atom nil))
-(def active-category (r/atom "category-Sandwiches"))
+(def active-category (r/atom "Sandwiches"))
 (def x (r/atom 10))
 (def y (r/atom 10))
 
@@ -21,10 +21,11 @@
          :style @style}
    (for [category @catalog
          :let [cat-name (:category/name category)]]
-     [:button {:id cat-name
+     [:button {:id (str "button-" cat-name)
                :key cat-name
                :on-click (fn [evt]
-                           (let [new-active-category (str "category-" cat-name)]
+                           (let [new-active-category cat-name]
+                             (println "foo=" @active-category)
                              (layout/off-screen @active-category)
                              (layout/on-screen new-active-category)
                              (reset! active-category new-active-category)
@@ -36,11 +37,11 @@
   (let [cat-name (:category/name cat)]
     (r/create-class  
      {:key (str cat)
-      :component-did-mount #(layout/off-screen (str "category-" cat-name))
+      :component-did-mount #(layout/off-screen cat-name)
       :component-will-mount #(println "component-will-mount") 
       :display-name  cat-name
       :reagent-render (fn [category]
-                        (let [id (str "category-" cat-name)]
+                        (let [id cat-name]
                           [:div {:id    id
                                  :key id
                                  :class "category"
@@ -68,7 +69,7 @@
 
 (defn build-ui []
   (r/render [app] js/document.body)
-  (layout/on-screen "category-Sandwiches"))
+  (layout/on-screen "Sandwiches"))
 
 
 (defmethod process-msg :catalog [[_ catalog-from-server]]
