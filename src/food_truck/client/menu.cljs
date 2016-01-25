@@ -28,10 +28,7 @@
                              (println "foo=" @active-category)
                              (layout/off-screen @active-category)
                              (layout/on-screen new-active-category)
-                             (reset! active-category new-active-category)
-                             )
-                           
-                           )} cat-name])])
+                             (reset! active-category new-active-category)))} cat-name])])
 
 (defn category [cat]
   (let [cat-name (:category/name cat)]
