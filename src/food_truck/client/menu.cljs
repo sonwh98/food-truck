@@ -3,9 +3,9 @@
   (:require [food-truck.client.dom :as dom]
             [com.kaicode.wocket.client :as ws :refer [process-msg]]
             [com.kaicode.morpheus.transform :as transform]
+            [com.kaicode.tily :as util]
             [food-truck.client.layout :as layout]
-            [reagent.core :as r]
-            ))
+            [reagent.core :as r]))
 
 (enable-console-print!)
 
@@ -39,10 +39,14 @@
       :display-name  cat-name
       :reagent-render (fn [category]
                         (let [id cat-name
-                              add-cart (fn [product]
-                                         (println "add " product)
-                                         (swap! line-items conj {:quantity 1 :product product :price 5})
-                                         )]
+                              add-to-cart (fn [product]
+                                            (let [line-items-with-index (util/with-index @line-items)
+                                                  line-item-with-index (first (filter #(= (-> % second :product) product)
+                                                                               line-items-with-index))
+                                                  [index line-item] line-item-with-index]
+                                              (if (empty? line-item)
+                                                (swap! line-items conj {:quantity 1 :product product :price (:product/price product)})
+                                                (swap! line-items update-in [index :quantity] inc))))]
                           [:div {:id    id
                                  :key id
                                  :class "category"
@@ -50,16 +54,14 @@
                                          :border-style "solid"
                                          :border-color "white"
                                          :position "absolute"}}
-                           (for [p (:products category)]
-                             [:button {:id (:product/sku p)
-                                       :key (:product/sku p)
+                           (for [product (:products category)]
+                             [:button {:id (:product/sku product)
+                                       :key (:product/sku product)
                                        :class "product"
-                                       :on-click #(add-cart p)}
-                              [:img {:src (or (:url p) "http://www.creattor.com/files/10/652/drinks-icons-screenshots-1.png")
+                                       :on-click #(add-to-cart product)}
+                              [:img {:src (or (:url product) "http://www.creattor.com/files/10/652/drinks-icons-screenshots-1.png")
                                      :class "product-img"}]
-                              [:div  (:product/name p)]])])
-                        
-                        )})))
+                              [:div  (:product/name product)]])]))})))
 
 (defn cart []
   (let [max-width (- js/window.innerWidth 300)]
@@ -68,7 +70,7 @@
      [:tr [:td "Quantity"] [:td "Description"] [:td "Price"]]
      (for [line @line-items
            :let [product (:product line)]]
-       [:tr [:td (:quantity line)] [:td (:product/name product)] [:td (:product/price product)]])
+       ^{:key (str line)} [:tr [:td (:quantity line)] [:td (:product/name product)] [:td (:product/price product)]])
      ]))
 
 (defn app []
