@@ -18,6 +18,7 @@
 (defonce style (ratom/reaction {:transform (layout/matrix->str (transform/translate @x @y))}))
 
 (defn category-buttons []
+  (layout/add "category-buttons-container")
   [:div {:id "category-buttons-container"
          :style @style}
    (for [category @catalog
@@ -30,8 +31,10 @@
                              (layout/on-screen new-active-category)
                              (reset! active-category new-active-category)))} cat-name])])
 
+
 (defn category [cat]
   (let [cat-name (:category/name cat)]
+    (layout/add cat-name)
     (r/create-class  
      {:key (str cat)
       :component-did-mount #(layout/off-screen cat-name)

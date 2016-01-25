@@ -1,8 +1,9 @@
 (ns food-truck.client.layout
   (:require [com.kaicode.morpheus.transform :as transform]
             [com.kaicode.tweenie :as tweenie]
+            [com.kaicode.mercury :as m]
             [domina :as dom]
-
+            [reagent.core :as r]
             [clojure.string :as clj-str]))
 
 (defonce div-type (type (js/document.createElement "div")))
@@ -69,3 +70,12 @@
 
 (defmethod rotate js/String [id theta]
   (rotate  (dom/by-id id) theta))
+
+(def widgets (r/atom #{}))
+
+(defn add [div-id]
+  (swap! widgets conj div-id))
+
+(m/on :window/resize (fn [evt]
+                       (println "recalculate" @widgets)
+                       ))
