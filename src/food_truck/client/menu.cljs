@@ -64,7 +64,7 @@
                               [:div  (:product/name product)]])]))})))
 
 (defn cart []
-  (let [max-width (- js/window.innerWidth 300)]
+  (let [max-width (- js/window.innerWidth 800)]
     [:table {:id "cart"
              :style {:transform (layout/matrix->str (transform/translate max-width 20))}}
      [:tr [:td "Quantity"] [:td "Description"] [:td "Price"]]
@@ -97,27 +97,3 @@
 (defn on-js-reload []
   (println "reload")
   (send-get-catalog))
-
-(defn my-component
-  [x y z]
-  (r/create-class  ;; <-- expects a map of functions
-   {:component-did-mount ;; the name of a lifecycle function
-    #(println "component-did-mount") ;; your implementation
-    
-    :component-will-mount ;; the name of a lifecycle function
-    #(println "component-will-mount") ;; your implementation
-    
-    ;; other lifecycle funcs can go in here
-    
-    :display-name  "my-component" ;; for more helpful warnings & errors
-    
-    :reagent-render ;; Note:  is not :render
-    (fn [x y z]     ;; remember to repeat parameters
-      [:div {:key (rand)} (str x " " y " " z)])})
-  )
-
-
-;; (r/render [:div
-;;            (for [i (range 2)]
-;;              ^{:key i} [my-component 1 2 3])
-;;            ] js/document.body)
