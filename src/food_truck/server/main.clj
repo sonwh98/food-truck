@@ -6,6 +6,7 @@
             [compojure.core :refer [defroutes]]
             [com.kaicode.wocket.server :as ws]
             [food-truck.server.restaurant]
+            [food-truck.server.db :as db]
             [com.stuartsierra.component :as component]
             [environ.core :refer [env]]
             (system.components
@@ -19,7 +20,7 @@
 
 (defn dev-system []
   (component/system-map
-    :datomic-db (new-datomic-db (or (env :db-url) "datomic:mem://food-truck"))
+    :datomic-db (new-datomic-db (db/get-url))
     ;:web (new-web-server (or (env :http-port) 8080) handler)
     :repl-server (new-repl-server 2222)))
 

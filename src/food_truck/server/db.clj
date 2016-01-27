@@ -3,7 +3,7 @@
             [reloaded.repl :refer [system]]
             [environ.core :refer [env]]))
 
-(defn get-db-url []
+(defn get-url []
   (or (env :db-url)  "datomic:mem://food-truck"))
 
 (defn get-conn []
