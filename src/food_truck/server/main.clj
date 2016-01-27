@@ -9,10 +9,10 @@
             [food-truck.server.db :as db]
             [com.stuartsierra.component :as component]
             [environ.core :refer [env]]
-            (system.components
-              [http-kit :refer [new-web-server]]
-              [datomic :refer [new-datomic-db]]
-              [repl-server :refer [new-repl-server]])
+            [system.components
+             [http-kit :refer [new-web-server]]
+             [datomic :refer [new-datomic-db]]
+             [repl-server :refer [new-repl-server]]]
             [reloaded.repl]))
 
 (defroutes all-routes
