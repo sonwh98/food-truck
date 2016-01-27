@@ -1,3 +1,3 @@
 boot start
 
-http://localhost/menu.html
+http://localhost:8080/menu.html
