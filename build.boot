@@ -51,6 +51,8 @@
  '[environ.core :refer [env]]
  '[environ.boot :refer [environ]])
 
+(core/load-data-readers!) ;;see  https://github.com/boot-clj/boot/issues/47
+
 (deftask build-cljs []
   (comp (speak)
         (cljs)))
@@ -81,6 +83,7 @@
 ;;boot environ -e db-url="datomic:free://localhost:4334/four" start
 ;;boot repl -c 
 (deftask start []
+
   (comp (aot :namespace '#{food-truck.server.main food-truck.server.db  food-truck.server.restaurant
                            food-truck.transit})
 
