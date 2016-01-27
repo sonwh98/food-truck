@@ -49,7 +49,10 @@
                                                   [index line-item] line-item-with-index]
                                               (if (empty? line-item)
                                                 (swap! line-items conj {:quantity 1 :product product :price (:product/price product)})
-                                                (swap! line-items update-in [index :quantity] inc))))]
+                                                (do
+                                                  (swap! line-items update-in [index :quantity] inc)
+                                                  (swap! line-items update-in [index :price] (fn [old-price]
+                                                                                               (+ old-price (:product/price product))))))))]
                           [:div {:id    id
                                  :key id
                                  :class "category"
@@ -73,7 +76,7 @@
      [:tr [:td "Quantity"] [:td "Description"] [:td "Price"]]
      (for [line @line-items
            :let [product (:product line)]]
-       ^{:key (str line)} [:tr [:td (:quantity line)] [:td (:product/name product)] [:td (:product/price product)]])
+       ^{:key (str line)} [:tr [:td (:quantity line)] [:td (:product/name product)] [:td (:price line)]])
      ]))
 
 (defn app []
