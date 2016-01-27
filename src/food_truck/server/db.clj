@@ -24,3 +24,11 @@
         params (vec (concat query+db variable-bindings))]
     (apply d/q params)))
 
+
+(defn create-test-db []
+  ;;(set! *data-readers* (.getRawRoot #'*data-readers*))
+  (let [schema (-> "resources/schema.edn" slurp read-string )
+        test-data (-> "resources/qt-sandwich.edn" slurp read-string)]
+    (transact schema)
+    (transact test-data)
+    ))

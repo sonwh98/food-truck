@@ -24,10 +24,13 @@
     ;:web (new-web-server (or (env :http-port) 8080) handler)
     :repl-server (new-repl-server 2222)))
 
+
+
 (defn -main [& args]
   (http-kit/run-server ws/listen-for-client-websocket-connections {:port 9090})
   (http-kit/run-server (site #'all-routes) {:port 8080})
   (reloaded.repl/set-init! dev-system)
   (reloaded.repl/go)
+  (db/create-test-db)
   (println "started...")
   )
